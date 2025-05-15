@@ -3,6 +3,7 @@ from flask import Flask, jsonify, request
 app = Flask(__name__)
 
 workout_entries = []
+calorie_entries = []
 
 @app.route("/")
 def home():
@@ -12,14 +13,19 @@ def home():
 def about():
     return "This is a fitness tracking API"
 
-@app.route("/calories")
-def calories():
-    calorie_data = [
-        {"date": "2025-05-13", "calories":2200},
-        {"date": "2025-05-14", "calories":2000},
-        {"date": "2025-05-15", "calories":2100},
-    ]
-    return jsonify(calorie_data)
+@app.route("/calories", methods=["GET"])
+def get_calories():
+    return jsonify(calorie_entries)
+
+@app.route("/calories", methods=["POST"])
+def add_calories():
+    data = request.get_json()
+
+    required_fields = ["date", "calories"]
+    if not all (field in data for field in required_fields):
+        return jsonify({"error": "Missing fields in calorie data"}), 400
+    calorie_entries.append(data)
+    return jsonify({"message": "Calorie entry added", "calories": data}), 201
 
 @app.route("/workouts", methods=["GET"])
 def get_workouts():
