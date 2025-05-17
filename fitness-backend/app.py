@@ -1,7 +1,10 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fitness.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -73,6 +76,14 @@ def get_workouts():
     ]
     return jsonify(result)
 
+@app.route('/api/workouts', methods=['POST', 'OPTIONS'])
+def log_workout():
+    if request.method == 'OPTIONS':
+        return '', 200
+
+    data = request.get_json()
+    print("Received workout:", data)
+    return jsonify({"message": "Workout logged"}), 201
 
 @app.route("/workouts", methods=["POST"])
 def add_workout():
