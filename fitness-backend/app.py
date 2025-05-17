@@ -76,17 +76,11 @@ def get_workouts():
     ]
     return jsonify(result)
 
-@app.route('/api/workouts', methods=['POST', 'OPTIONS'])
-def log_workout():
+@app.route("/api/workouts", methods=["POST", 'OPTIONS'])
+def add_workout():
     if request.method == 'OPTIONS':
         return '', 200
 
-    data = request.get_json()
-    print("Received workout:", data)
-    return jsonify({"message": "Workout logged"}), 201
-
-@app.route("/workouts", methods=["POST"])
-def add_workout():
     data = request.get_json()
 
     required_fields = ["date", "type", "duration_min"]

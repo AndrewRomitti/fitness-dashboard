@@ -15,7 +15,7 @@ export default function WorkoutForm() {
                 const res = await fetch('http://localhost:5000/api/workouts', {
                     method:'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(workoutData),
+                    body: JSON.stringify( {date, type, duration_min: Number(duration)}),
                 });
 
                 if (res.ok) {
