@@ -1,5 +1,6 @@
 import './App.css'
 import WorkoutForm from './components/WorkoutForm';
+import WorkoutList from './components/WorkoutList';
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       </header>
 
       <main className="p-6">
+        <WorkoutList />
         <WorkoutForm />
       </main>
     </div>
